@@ -45,4 +45,20 @@ router.post('/generate', async (req, res) => {
   }
 });
 
+router.get('/unused', async (req, res) => {
+  try {
+    
+    const now = new Date();
+    const unusedCards = await ScratchCard.find({
+      isActive: true,
+      isScratched: false,
+      expiryDate: { $gt: now }
+    });
+    res.json({ scratchCards: unusedCards });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 module.exports = router;
