@@ -20,7 +20,11 @@ const transactionSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+    transactionAmount: {
+  type: Number,
+  required: true
+}
 });
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
