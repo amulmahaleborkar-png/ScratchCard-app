@@ -4,9 +4,11 @@ const { v4: uuidv4 } = require('uuid');
 const scratchCardSchema = new mongoose.Schema({
   id: {
     type: String,
-    default: uuidv4, // Automatically generate a GUID
+    default: uuidv4, 
     unique: true
   },
+  
+  
   discountAmount: {
     type: Number,
     required: true,

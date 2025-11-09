@@ -55,8 +55,9 @@ router.get('/', async (req, res) => {
 
     // Filter by userId
     if (userId) {
-      filter.userId = userId;
+      filter.userId = new mongoose.Types.ObjectId(userId);
     }
+
     // Filter by transactionAmount
     if (transactionAmount) {
       filter.transactionAmount = Number(transactionAmount);

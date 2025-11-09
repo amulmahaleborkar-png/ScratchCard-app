@@ -18,6 +18,8 @@ app.use('/api/scratchcards', scratchCardsRouter);
 const transactionsRouter = require('./routes/transactions');
 app.use('/api/transactions', transactionsRouter);
 
+const statsRouter = require('./routes/stats');
+app.use('/api/stats', statsRouter);
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/ScratchCardDB', {

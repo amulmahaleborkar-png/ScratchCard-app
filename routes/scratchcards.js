@@ -58,6 +58,56 @@ router.get('/unused', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+
+
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const card = await ScratchCard.findOne({ id: req.params.id });
+    if (!card) return res.status(404).json({ message: 'Scratch card not found' });
+    res.json({ scratchCard: card });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// routes/scratchcards.js
+router.patch('/:id/activate', async (req, res) => {
+  try {
+    const card = await ScratchCard.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: { isActive: true } },
+      { new: true }
+    );
+    if (!card) return res.status(404).json({ message: 'Scratch card not found' });
+    res.json({ scratchCard: card });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+router.patch('/:id/deactivate', async (req, res) => {
+  try {
+    const card = await ScratchCard.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: { isActive: false } },
+      { new: true }
+    );
+    if (!card) return res.status(404).json({ message: 'Scratch card not found' });
+    res.json({ scratchCard: card });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// routes/scratchcards.js
+router.get('/status/expired', async (req, res) => {
+  try {
+    const now = new Date();
+    const expired = await ScratchCard.find({
+      isActive: true,
+      isScratched: false,
+      expiryDate: { $lte: now }
+    }).sort({ expiryDate: 1 });
+    res.json({ scratchCards: expired });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 
